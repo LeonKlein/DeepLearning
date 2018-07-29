@@ -1,6 +1,6 @@
 from PIL import Image, ImageFilter
 from matplotlib import pyplot as plt
-
+import numpy as np
 
 def imageprepare(argv):
     """
@@ -59,5 +59,7 @@ for i in range(28):
 
 
 plt.imshow(newArr, interpolation='nearest', cmap="Greys")
+np.save("picture", np.array(newArr,dtype='floa
+                            t32'))
 plt.savefig('MNIST_IMAGE.png')#save MNIST image
 plt.show()#Show / plot that image
