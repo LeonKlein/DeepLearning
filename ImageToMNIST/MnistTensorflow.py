@@ -7,8 +7,8 @@ from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 
-epochs = 150
-dense_units = 150 # 1024
+epochs = 10
+dense_units = 150 
 filters1 = 64
 filters2 = 88
 
@@ -58,8 +58,8 @@ def cnn_model_fn(features, labels, mode):
     return tf.estimator.EstimatorSpec(
         mode=mode, loss=loss, eval_metric_ops=eval_metric_ops, predictions=predictions)
 
-#checkpointing_config = tf.estimator.RunConfig(save_checkpoints_steps=500, keep_checkpoint_max=200)
-mnist_classifier = tf.estimator.Estimator(model_fn=cnn_model_fn)
+checkpointing_config = tf.estimator.RunConfig(save_checkpoints_steps=500, keep_checkpoint_max=200)
+mnist_classifier = tf.estimator.Estimator(model_fn=cnn_model_fn, model_dir='checkpoints', config=checkpointing_config)
 
 train_input_fn = tf.estimator.inputs.numpy_input_fn(
     x={"x": mnist.train.images},
@@ -131,7 +131,7 @@ pred = 1 - np.sum(accuracy) / len(mnist.test.labels)
 print("Accuracy: ", pred)
 
 
-###load self made picture
+### load self made picture
 
 picture = np.load("picture.npy").reshape(28 * 28)
 picture = picture[np.newaxis,:]
